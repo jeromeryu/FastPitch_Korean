@@ -64,6 +64,13 @@ def main(args):
     mean_f0, std_f0 = mean_f0.reshape(1, -1), std_f0.reshape(1, -1)
     mean_energy, std_energy = mean_energy.reshape(1, -1), std_energy.reshape(1, -1)
 
+    print(mean_mel)
+    print(std_mel)
+    print(mean_f0)
+    print(std_f0)
+    print(mean_energy)
+    print(std_energy)
+
 
     # Load vocoder
     if hp.vocoder == 'vocgan':

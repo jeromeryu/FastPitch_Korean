@@ -111,3 +111,17 @@ We specially thank to ming024 for providing FastSpeech2 pytorch-implentation. Th
 - [FastSpeech: Fast, Robust and Controllable Text to Speech](https://arxiv.org/abs/1905.09263), Y. Ren, *et al*.
 - [ming024's FastSpeech2 impelmentation](https://github.com/ming024/FastSpeech2)
 - [rishikksh20's VocGAN implementation](https://github.com/rishikksh20/VocGAN)
+
+
+
+# Things you should Know for this project
+- requirements의 몇 부분이 버전 호환성이 잘못되어 주석처리 해두었고, 필요에 따라 부족한 라이브러리를 최신 버전으로 설치해야 함.
+- GPU가 없는 컴퓨터에서는 Apex의 cuda extension이 설치되지 않음. 따라서 python only-build로 설치하며, FusedLAMB optimizer를 사용할 수 없음. 일시적으로 adam optimizer를 사용하며, 실험을 돌릴 때 train.sh에서 옵션을 lamb로 수정해야 함.
+- apex 설치는 https://github.com/NVIDIA/apex#from-source 참고
+- GPU를 이용하기 위해서는 train.sh 47, 104번줄 주석 해제 후, 103번줄 주석처리, gpu 개수 명시 필요.
+- how to train : ```bash train.sh```
+
+# TODO
+- 우선순위에 따른 TODO
+- FastPitch와 FastSpeech 데이터셋 구조가 달라 dataset, dataloader 호환되지 않음. 이를 맞춰주어야 함.
+- hparam과 argparser가 혼용되고 있는것을 통일할 필요 있음.

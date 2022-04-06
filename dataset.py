@@ -13,7 +13,6 @@ import time
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-
 class Dataset(Dataset):
     def __init__(self, filename="train.txt", sort=True):
         self.basename, self.text = process_meta(os.path.join(hparams.preprocessed_path, filename))
