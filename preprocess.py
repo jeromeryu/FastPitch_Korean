@@ -47,7 +47,6 @@ def main():
             if not os.path.exists(os.path.join(in_dir, "wavs_bak")):
                 os.system("mv {} {}".format(os.path.join(in_dir, "wavs"), os.path.join(in_dir, "wavs_bak")))        
                 os.makedirs(os.path.join(in_dir, "wavs"))
-        '''
         # kss version 1.4
         if "v.1.4" in meta:
             if not os.path.exists(os.path.join(in_dir, "wavs_bak")):
@@ -56,7 +55,6 @@ def main():
                 for i in range(1, 5) : os.system("mv {} {}".format(os.path.join(in_dir, str(i)), os.path.join(in_dir, "wavs")))
                 os.system("mv {} {}".format(os.path.join(in_dir, "wavs"), os.path.join(in_dir, "wavs_bak")))
                 os.makedirs(os.path.join(in_dir, "wavs"))
-        '''
 
         train, val = kss.build_from_path(in_dir, out_dir, meta)
 
