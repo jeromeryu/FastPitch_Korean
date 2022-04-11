@@ -237,7 +237,8 @@ class FastPitch(nn.Module):
             attn_cpu = attn.data.cpu().numpy()
             attn_out = b_mas(attn_cpu, in_lens.cpu().numpy(),
                              out_lens.cpu().numpy(), width=1)
-        return torch.from_numpy(attn_out).to(attn.get_device())
+        #return torch.from_numpy(attn_out).to(attn.get_device())
+        return torch.from_numpy(attn_out).to("cpu")
 
     def forward(self, inputs, use_gt_pitch=True, pace=1.0, max_duration=75):
 
@@ -252,7 +253,7 @@ class FastPitch(nn.Module):
         else:
             spk_emb = self.speaker_emb(speaker).unsqueeze(1)
             spk_emb.mul_(self.speaker_emb_weight)
-
+        
         # Input FFT
         enc_out, enc_mask = self.encoder(inputs, conditioning=spk_emb)
 
