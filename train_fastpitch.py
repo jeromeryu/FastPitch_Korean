@@ -455,10 +455,11 @@ def main():
         prepare_tmp(args.pitch_online_dir)
 
     ## TODO match format of dataset
-    # trainset = TTSDataset(audiopaths_and_text=args.training_files, **vars(args))
-    # valset = TTSDataset(audiopaths_and_text=args.validation_files, **vars(args))
-    trainset = Dataset("train.txt")
-    valset = Dataset("val.txt")
+    trainset = TTSDataset(audiopaths_and_text=args.training_files, **vars(args))
+    valset = TTSDataset(audiopaths_and_text=args.validation_files, **vars(args))
+
+    #trainset = Dataset("train.txt")
+    #valset = Dataset("val.txt")
 
 
     if distributed_run:
@@ -468,12 +469,12 @@ def main():
 
     # TODO match format of dataloader
     # 4 workers are optimal on DGX-1 (from epoch 2 onwards)
-    # train_loader = DataLoader(trainset, num_workers=4, shuffle=shuffle,
-    #                           sampler=train_sampler, batch_size=args.batch_size,
-    #                           pin_memory=True, persistent_workers=True,
-    #                           drop_last=True, collate_fn=collate_fn)
-    train_loader = DataLoader(trainset, batch_size=hp.batch_size**2, shuffle=True, 
-        collate_fn=trainset.collate_fn, drop_last=True, num_workers=0)
+    train_loader = DataLoader(trainset, num_workers=4, shuffle=shuffle,
+                              sampler=train_sampler, batch_size=args.batch_size,
+                              pin_memory=True, persistent_workers=True,
+                              drop_last=True, collate_fn=collate_fn)
+    #train_loader = DataLoader(trainset, batch_size=hp.batch_size**2, shuffle=True, 
+    #    collate_fn=trainset.collate_fn, drop_last=True, num_workers=0)
 
     if args.ema_decay:
         mt_ema_params = init_multi_tensor_ema(model, ema_model)
@@ -516,7 +517,7 @@ def main():
 
                 model.zero_grad(set_to_none=True)
 
-            print(batch)
+            #print(batch)
 
             x, y, num_frames = batch_to_gpu(batch)
 

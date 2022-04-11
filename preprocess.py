@@ -16,6 +16,7 @@ def main():
     meta = hp.meta_name
     textgrid_name = hp.textgrid_name
 
+    '''
     mel_out_dir = os.path.join(out_dir, "mel")
     if not os.path.exists(mel_out_dir):
         os.makedirs(mel_out_dir, exist_ok=True)
@@ -31,7 +32,7 @@ def main():
     energy_out_dir = os.path.join(out_dir, "energy")
     if not os.path.exists(energy_out_dir):
         os.makedirs(energy_out_dir, exist_ok=True)
-
+    '''
     if os.path.isfile(textgrid_name):
         os.system('mv ./{} {}'.format(textgrid_name, out_dir))
 
@@ -46,7 +47,7 @@ def main():
             if not os.path.exists(os.path.join(in_dir, "wavs_bak")):
                 os.system("mv {} {}".format(os.path.join(in_dir, "wavs"), os.path.join(in_dir, "wavs_bak")))        
                 os.makedirs(os.path.join(in_dir, "wavs"))
-
+        '''
         # kss version 1.4
         if "v.1.4" in meta:
             if not os.path.exists(os.path.join(in_dir, "wavs_bak")):
@@ -55,6 +56,7 @@ def main():
                 for i in range(1, 5) : os.system("mv {} {}".format(os.path.join(in_dir, str(i)), os.path.join(in_dir, "wavs")))
                 os.system("mv {} {}".format(os.path.join(in_dir, "wavs"), os.path.join(in_dir, "wavs_bak")))
                 os.makedirs(os.path.join(in_dir, "wavs"))
+        '''
 
         train, val = kss.build_from_path(in_dir, out_dir, meta)
 

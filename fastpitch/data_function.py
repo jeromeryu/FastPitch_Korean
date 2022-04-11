@@ -40,6 +40,7 @@ from scipy.stats import betabinom
 import common.layers as layers
 from common.text.text_processing import TextProcessing
 from common.utils import load_wav_to_torch, load_filepaths_and_text, to_gpu
+from text import text_to_sequence, sequence_to_text
 
 
 class BetaBinomialInterpolator:
@@ -51,7 +52,8 @@ class BetaBinomialInterpolator:
     def __init__(self, round_mel_len_to=100, round_text_len_to=20):
         self.round_mel_len_to = round_mel_len_to
         self.round_text_len_to = round_text_len_to
-        self.bank = functools.lru_cache(beta_binomial_prior_distribution)
+        f = functools.lru_cache(maxsize=128)
+        self.bank = f(beta_binomial_prior_distribution)
 
     def round(self, val, to):
         return max(1, int(np.round((val + 1) / to))) * to
@@ -137,7 +139,7 @@ class TTSDataset(torch.utils.data.Dataset):
                  p_arpabet=1.0,
                  n_speakers=1,
                  load_mel_from_disk=True,
-                 load_pitch_from_disk=True,
+                 load_pitch_from_disk=False,
                  pitch_mean=214.72203,  # LJSpeech defaults
                  pitch_std=65.72038,
                  max_wav_value=None,
@@ -252,7 +254,8 @@ class TTSDataset(torch.utils.data.Dataset):
         return melspec
 
     def get_text(self, text):
-        text = self.tp.encode_text(text)
+        #TODO : Fixed
+        text = text_to_sequence(text, [])
         space = [self.tp.encode_text("A A")[1]]
 
         if self.prepend_space_to_text:

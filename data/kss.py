@@ -40,27 +40,28 @@ def build_from_path(in_dir, out_dir, meta):
 
             if ret is None:
                 continue
-            else:
-                info, n = ret
+            #else:
+                #info, n = ret
             
             if basename[0] == '1':
-                val.append(info)
+                val.append(ret)
             else:
-                train.append(info)
+                train.append(ret)
 
             if index % 100 == 0:
                 print("Done %d" % index)
 
-            n_frames += n
+            #n_frames += n
 
-    param_list = [np.array([scaler.mean_, scaler.scale_]) for scaler in scalers]
-    param_name_list = ['mel_stat.npy', 'f0_stat.npy', 'energy_stat.npy']
-    [np.save(os.path.join(out_dir, param_name), param_list[idx]) for idx, param_name in enumerate(param_name_list)]
+    #param_list = [np.array([scaler.mean_, scaler.scale_]) for scaler in scalers]
+    #param_name_list = ['mel_stat.npy', 'f0_stat.npy', 'energy_stat.npy']
+    #[np.save(os.path.join(out_dir, param_name), param_list[idx]) for idx, param_name in enumerate(param_name_list)]
 
     return [r for r in train if r is not None], [r for r in val if r is not None]
 
 
 def process_utterance(in_dir, out_dir, basename, scalers):
+    original_name = basename[2:]
     wav_bak_basename=basename.replace('.wav','')
     basename = wav_bak_basename[2:]
     wav_bak_path = os.path.join(in_dir, "wavs_bak", "{}.wav".format(wav_bak_basename))
@@ -81,6 +82,7 @@ def process_utterance(in_dir, out_dir, basename, scalers):
     if start >= end:
         return None
 
+    '''
     # Read and trim wav files
     _, wav = read(wav_path)
     wav = wav[int(hp.sampling_rate*start):int(hp.sampling_rate*end)].astype(np.float32)
@@ -121,5 +123,6 @@ def process_utterance(in_dir, out_dir, basename, scalers):
     mel_scaler.partial_fit(mel_spectrogram.T)
     f0_scaler.partial_fit(f0[f0!=0].reshape(-1, 1))
     energy_scaler.partial_fit(energy[energy != 0].reshape(-1, 1))
+    '''
 
-    return '|'.join([basename, text]), mel_spectrogram.shape[1]
+    return '|'.join([original_name, text])

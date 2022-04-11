@@ -3,14 +3,14 @@
 export OMP_NUM_THREADS=1
 
 # : ${NUM_GPUS:=8}
-: ${NUM_GPUS:=0}
+: ${NUM_GPUS:=1}
 : ${BATCH_SIZE:=16}
 : ${GRAD_ACCUMULATION:=2}
 : ${OUTPUT_DIR:="./output"}
 : ${LOG_FILE:=$OUTPUT_DIR/nvlog.json}
-: ${DATASET_PATH:=LJSpeech-1.1}
-: ${TRAIN_FILELIST:=filelists/ljs_audio_pitch_text_train_v3.txt}
-: ${VAL_FILELIST:=filelists/ljs_audio_pitch_text_val.txt}
+: ${DATASET_PATH:=dataset/kss/wavs}
+: ${TRAIN_FILELIST:=preprocessed/kss/train.txt}
+: ${VAL_FILELIST:=preprocessed/kss/val.txt}
 : ${AMP:=false}
 : ${SEED:=""}
 
@@ -30,7 +30,7 @@ export OMP_NUM_THREADS=1
 # Add dummy space prefix/suffix is audio is not precisely trimmed
 : ${APPEND_SPACES:=false}
 
-: ${LOAD_PITCH_FROM_DISK:=true}
+: ${LOAD_PITCH_FROM_DISK:=false}
 : ${LOAD_MEL_FROM_DISK:=false}
 
 # For multispeaker models, add speaker ID = {0, 1, ...} as the last filelist column
