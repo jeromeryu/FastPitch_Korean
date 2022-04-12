@@ -139,3 +139,6 @@ vocoder/pretrained_models/
 
 dataset/
 preprocessed/
+output/
+archive.zip
+TextGrid.zip

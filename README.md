@@ -120,16 +120,32 @@ We specially thank to ming024 for providing FastSpeech2 pytorch-implentation. Th
 - GPU가 없는 컴퓨터에서는 Apex의 cuda extension이 설치되지 않음. 따라서 python only-build로 설치하며, FusedLAMB optimizer를 사용할 수 없음. 일시적으로 adam optimizer를 사용하며, 실험을 돌릴 때 train.sh에서 옵션을 lamb로 수정해야 함.
 - apex 설치는 https://github.com/NVIDIA/apex#from-source 참고
 
+## Installation
+mecab-ko
+```shell
+curl https://raw.githubusercontent.com/jjeaby/jscript/master/mecabko-install.sh | bash
+```
+apex
+```shell
+git clone https://github.com/NVIDIA/apex
+cd apex
+pip install -v --disable-pip-version-check --no-cache-dir ./
+```
+dllogger
+```shell
+pip install git+https://github.com/NVIDIA/dllogger#egg=dllogger
+```
+
 ## Usage
 ### Prepare dataset
 [Korean-Single-Speech dataset](https://www.kaggle.com/bryanpark/korean-single-speaker-speech-dataset) 다운로드 후 `./dataset/kss`에 압축 해제.
 
 ### Preprocess
-README.md 맨 위에 기록된 Preprocessing 그대로 따라하면 됨. 
+README.md 맨 위에 기록된 Preprocessing 그대로 따라하면 됨. prepare_align.py는 실행할 필요 없음.
 
 ### Train (with GPU)
 GPU를 이용하기 위해서는 train.sh 47, 104번줄 주석 해제 후, 103번줄 주석처리, gpu 개수 명시 필요.
-```bash
+```shell
 bash train.sh
 ```
 
@@ -137,3 +153,13 @@ bash train.sh
 - 우선순위에 따른 TODO
 - [x] FastPitch와 FastSpeech 데이터셋 구조가 달라 dataset, dataloader 호환되지 않음. 이를 맞춰주어야 함.
 - [ ] hparam과 argparser가 혼용되고 있는것을 통일할 필요 있음.
+
+# Issues
+2022/04/12 YK
+- requirements.txt 수정사항
+  - python-mecab-ko 삭제
+  - torch 버전 수정: 1.6.0 → 0.12.0+cu113
+- wav file 불러오는 코드 모두 수정
+  - stereo → mono 변환 필요
+  - `scipy.io.wavfile.read` 대신 채널 옵션이 있는 `librosa.load` 사용
+- 1차 학습중 (NUM_GPUS=4, BATCH_SIZE=128, lamb optimizer)
