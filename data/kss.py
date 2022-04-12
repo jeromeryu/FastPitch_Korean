@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import tgt
-from scipy.io.wavfile import read
+from librosa import load
 import pyworld as pw
 import torch
 import audio as Audio
@@ -83,7 +83,7 @@ def process_utterance(in_dir, out_dir, basename, scalers):
         return None
 
     # Read and trim wav files
-    _, wav = read(wav_path)
+    wav, _ = load(wav_path, mono=True) # convert from stereo to mono
     wav = wav[int(hp.sampling_rate*start):int(hp.sampling_rate*end)].astype(np.float32)
 
     # Compute fundamental frequency
