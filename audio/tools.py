@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from scipy.io.wavfile import read
+from librosa import load
 from scipy.io.wavfile import write
 
 import audio.stft as stft
@@ -14,7 +14,7 @@ _stft = stft.TacotronSTFT(
 
 
 def load_wav_to_torch(full_path):
-    sampling_rate, data = read(full_path)
+    data, sampling_rate = load(full_path, mono=True)
     return torch.FloatTensor(data.astype(np.float32)), sampling_rate
 
 
