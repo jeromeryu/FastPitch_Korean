@@ -21,7 +21,6 @@ import librosa
 import numpy as np
 
 import torch
-from scipy.io.wavfile import read
 
 
 class BenchmarkStats:
@@ -62,7 +61,7 @@ def load_wav_to_torch(full_path, force_sampling_rate=None):
     if force_sampling_rate is not None:
         data, sampling_rate = librosa.load(full_path, sr=force_sampling_rate)
     else:
-        sampling_rate, data = read(full_path)
+        data, sampling_rate = librosa.load(full_path, mono=True)
 
     return torch.FloatTensor(data.astype(np.float32)), sampling_rate
 
