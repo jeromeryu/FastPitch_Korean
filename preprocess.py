@@ -16,7 +16,6 @@ def main():
     meta = hp.meta_name
     textgrid_name = hp.textgrid_name
 
-    '''
     mel_out_dir = os.path.join(out_dir, "mel")
     if not os.path.exists(mel_out_dir):
         os.makedirs(mel_out_dir, exist_ok=True)
@@ -32,9 +31,9 @@ def main():
     energy_out_dir = os.path.join(out_dir, "energy")
     if not os.path.exists(energy_out_dir):
         os.makedirs(energy_out_dir, exist_ok=True)
-    '''
+
     if os.path.isfile(textgrid_name):
-        os.system('mv ./{} {}'.format(textgrid_name, out_dir))
+        os.system('cp ./{} {}'.format(textgrid_name, out_dir))
 
     if not os.path.exists(os.path.join(out_dir, textgrid_name.replace(".zip", ""))):
         print("unzip")

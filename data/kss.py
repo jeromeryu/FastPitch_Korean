@@ -53,9 +53,9 @@ def build_from_path(in_dir, out_dir, meta):
 
             #n_frames += n
 
-    #param_list = [np.array([scaler.mean_, scaler.scale_]) for scaler in scalers]
-    #param_name_list = ['mel_stat.npy', 'f0_stat.npy', 'energy_stat.npy']
-    #[np.save(os.path.join(out_dir, param_name), param_list[idx]) for idx, param_name in enumerate(param_name_list)]
+    param_list = [np.array([scaler.mean_, scaler.scale_]) for scaler in scalers]
+    param_name_list = ['mel_stat.npy', 'f0_stat.npy', 'energy_stat.npy']
+    [np.save(os.path.join(out_dir, param_name), param_list[idx]) for idx, param_name in enumerate(param_name_list)]
 
     return [r for r in train if r is not None], [r for r in val if r is not None]
 
@@ -82,7 +82,6 @@ def process_utterance(in_dir, out_dir, basename, scalers):
     if start >= end:
         return None
 
-    '''
     # Read and trim wav files
     _, wav = read(wav_path)
     wav = wav[int(hp.sampling_rate*start):int(hp.sampling_rate*end)].astype(np.float32)
@@ -123,6 +122,5 @@ def process_utterance(in_dir, out_dir, basename, scalers):
     mel_scaler.partial_fit(mel_spectrogram.T)
     f0_scaler.partial_fit(f0[f0!=0].reshape(-1, 1))
     energy_scaler.partial_fit(energy[energy != 0].reshape(-1, 1))
-    '''
 
     return '|'.join([original_name, text])

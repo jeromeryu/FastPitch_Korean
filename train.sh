@@ -4,7 +4,7 @@ export OMP_NUM_THREADS=1
 
 # : ${NUM_GPUS:=8}
 : ${NUM_GPUS:=1}
-: ${BATCH_SIZE:=16}
+: ${BATCH_SIZE:=8}
 : ${GRAD_ACCUMULATION:=2}
 : ${OUTPUT_DIR:="./output"}
 : ${LOG_FILE:=$OUTPUT_DIR/nvlog.json}
@@ -17,8 +17,8 @@ export OMP_NUM_THREADS=1
 : ${LEARNING_RATE:=0.1}
 
 # Adjust these when the amount of data changes
-: ${EPOCHS:=1000}
-: ${EPOCHS_PER_CHECKPOINT:=100}
+: ${EPOCHS:=100}
+: ${EPOCHS_PER_CHECKPOINT:=10}
 : ${WARMUP_STEPS:=1000}
 : ${KL_LOSS_WARMUP:=100}
 
@@ -44,7 +44,7 @@ echo -e "\nAMP=$AMP, ${NUM_GPUS}x${BATCH_SIZE}x${GRAD_ACCUMULATION}" \
         "(global batch size ${GBS})\n"
 
 ARGS=""
-# ARGS+=" --cuda"
+ARGS+=" --cuda"
 ARGS+=" -o $OUTPUT_DIR"
 ARGS+=" --log-file $LOG_FILE"
 ARGS+=" --dataset-path $DATASET_PATH"
@@ -70,8 +70,8 @@ ARGS+=" --text-cleaners $TEXT_CLEANERS"
 ARGS+=" --n-speakers $NSPEAKERS"
 
 ## for out project
-ARGS+=" --optimizer adam"
-# ARGS+=" --optimizer lamb"
+#ARGS+=" --optimizer adam"
+ARGS+=" --optimizer lamb"
 
 [ "$AMP" = "true" ]                && ARGS+=" --amp"
 [ "$PHONE" = "true" ]              && ARGS+=" --p-arpabet 1.0"

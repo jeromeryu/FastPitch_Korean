@@ -237,8 +237,8 @@ class FastPitch(nn.Module):
             attn_cpu = attn.data.cpu().numpy()
             attn_out = b_mas(attn_cpu, in_lens.cpu().numpy(),
                              out_lens.cpu().numpy(), width=1)
-        #return torch.from_numpy(attn_out).to(attn.get_device())
-        return torch.from_numpy(attn_out).to("cpu")
+        return torch.from_numpy(attn_out).to(attn.get_device())
+        #return torch.from_numpy(attn_out).to("cpu")
 
     def forward(self, inputs, use_gt_pitch=True, pace=1.0, max_duration=75):
 
