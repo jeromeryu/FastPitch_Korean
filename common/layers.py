@@ -28,7 +28,9 @@
 import torch
 import torch.nn.functional as F
 from librosa.filters import mel as librosa_mel_fn
-from common.audio_processing import dynamic_range_compression, dynamic_range_decompression
+
+from common.audio_processing import (dynamic_range_compression,
+                                     dynamic_range_decompression)
 from common.stft import STFT
 
 
@@ -47,7 +49,8 @@ class LinearNorm(torch.nn.Module):
 
 class ConvNorm(torch.nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size=1, stride=1,
-                 padding=None, dilation=1, bias=True, w_init_gain='linear', batch_norm=False):
+                 padding=None, dilation=1, bias=True, w_init_gain='linear',
+                 batch_norm=False):
         super(ConvNorm, self).__init__()
         if padding is None:
             assert(kernel_size % 2 == 1)
@@ -100,7 +103,6 @@ class TacotronSTFT(torch.nn.Module):
             fmin=mel_fmin,
             fmax=mel_fmax
         )
-
         mel_basis = torch.from_numpy(mel_basis).float()
         self.register_buffer('mel_basis', mel_basis)
 

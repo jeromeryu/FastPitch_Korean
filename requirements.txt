@@ -103,3 +103,4 @@ Unidecode==1.1.1
 urllib3==1.25.10
 Werkzeug==1.0.1
 zipp==3.1.0
+pynvml==11.0.0

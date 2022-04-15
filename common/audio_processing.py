@@ -25,10 +25,10 @@
 #
 # *****************************************************************************
 
-import torch
-import numpy as np
-from scipy.signal import get_window
 import librosa.util as librosa_util
+import numpy as np
+import torch
+from scipy.signal import get_window
 
 
 def window_sumsquare(window, n_frames, hop_length=200, win_length=800,
